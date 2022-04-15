@@ -63,7 +63,6 @@ function renderMixin(Vue) {
     }
 }
 
-
 function mountComponent(vm, el) {
     vm.$el = el
     let vnode = vm.$options.render

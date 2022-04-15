@@ -21,12 +21,10 @@ function genAttrs(attrs) {
 }
 
 function genNode(node) {
-    console.log(node, 'w2');
     // 元素
     if (node.type === 1) {
         return generate(node)
     } else if (node.type === 3 && node.isComment) {
-        console.log(node, '2222');
         // 注释
         return `_e(${JSON.stringify(node.text)})`
     } else {
