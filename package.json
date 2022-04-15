@@ -1,0 +1,36 @@
+{
+  "name": "simple-vue",
+  "version": "1.0.0",
+  "description": "simple-vue",
+  "main": "rollup.config.js",
+  "types": "dist/vue.d.ts",
+  "scripts": {
+    "build": "npx rollup --c rollup.config.js",
+    "dev": "rollup -c -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhouzhishou123/simple-vue.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhouzhishou123/simple-vue/issues"
+  },
+  "homepage": "https://github.com/zhouzhishou123/simple-vue#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@rollup/plugin-node-resolve": "^13.2.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-latest": "^6.24.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-eslint": "^7.0.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-serve": "^1.1.0",
+    "rollup-plugin-typescript2": "^0.31.2",
+    "typescript": "^4.6.3"
+  }
+}
