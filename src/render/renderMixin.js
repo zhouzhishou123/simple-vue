@@ -10,12 +10,20 @@ import {
     createElementVNode,
 } from '../vnode/vnode'
 import compileToFunctions from '../compiler/compileToFunctions'
+import { patch } from '../patch/patch'
+
 
 function renderMixin(Vue) {
     // 生成元素虚拟dom
-    Vue.prototype._c = function () {
+    Vue.prototype._c = function (a, b, c) {
+        // 1. 当属性为空时有子节点
+        if (c === undefined && Array.isArray(b)) {
+            c = b
+            b = undefined
+        }
+        // 属性存在但是没有子节点 b && c === undefined
         const vm = this
-        return createElementVNode(vm, ...arguments)
+        return createElementVNode(vm, a, b, c)
     }
 
     // 生成文本虚拟dom
@@ -29,7 +37,7 @@ function renderMixin(Vue) {
         if (typeof val === 'object') {
             return JSON.stringify(val)
         }
-        return val + ''
+        return val
     }
     //生成注释节点
     Vue.prototype._e = function (text) {
@@ -56,18 +64,35 @@ function renderMixin(Vue) {
         if (options.template) {
             render = compileToFunctions(options.template).call(vm)
         }
-
         options.render = render
         // 开始挂载节点
         mountComponent(vm, el)
     }
 }
 
+
+
+
 function mountComponent(vm, el) {
     vm.$el = el
     let vnode = vm.$options.render
-    // 更新试图
+    // 更新视图
     vm._update(vnode)
+
+    // diff
+    let newVnode = compileToFunctions(`
+            <div key="a">
+                <div key="Q">Q</div>
+                <div key="W">W</div>
+                <div key="R">R</div>
+                <div key="T">T</div>
+                <div key="A">A</div>
+            </div>
+    `).call(vm)
+
+    patch(vnode, newVnode)
+    console.log(vnode, '旧节点');
+    console.log(newVnode, '新节点');
 }
 
 export default renderMixin

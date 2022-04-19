@@ -17,10 +17,13 @@ initMixin(Vue)
 
 export default Vue
 
-
 let vm = new Vue({
     el: '#app',
-    template: `<div>  <!-- 我是注释 --> <span>hello {{name}} {{age}} </span> </div>`,
+    template: `<div key="a">
+                    <div key="A">A</div>
+                    <div key="B">B</div>
+                    <div key="C">C</div>
+               </div>`,
     data() {
         return {
             name: 'world',
@@ -28,4 +31,3 @@ let vm = new Vue({
         }
     }
 })
-

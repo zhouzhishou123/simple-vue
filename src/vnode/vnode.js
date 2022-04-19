@@ -12,7 +12,7 @@
  * */
 
 class VNode {
-    constructor(vm, tag, children, data, text = undefined, context = null, elm = null) {
+    constructor(vm, tag, data = {}, children = [], text = undefined, elm = null) {
         // 标签
         this.tag = tag
         // 属性
@@ -25,6 +25,7 @@ class VNode {
         this.elm = elm
         // 当前组件实例
         this.context = vm
+        this.key = data.attrs && data.attrs.key
     }
 }
 
@@ -38,10 +39,16 @@ export function createEmptyVNode(vm, text) {
 
 // 创建一个文本虚拟节点
 export function createTextVNode(vm, text) {
-    return new VNode(vm, undefined, undefined, undefined, text + '')
+    return new VNode(vm, undefined, undefined, undefined, text)
 }
 
 // 创建一个元素的虚拟节点
-export function createElementVNode(vm, tag, data, ...children) {
+export function createElementVNode(vm, tag, data, children) {
+
     return new VNode(vm, tag, data, children, undefined)
+}
+
+
+export function emptyNodeAt(elm) {
+    return new VNode(undefined, elm.tagName.toLowerCase(), undefined, undefined, undefined, elm)
 }
