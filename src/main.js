@@ -12,22 +12,23 @@ function Vue(options) {
     this._init(options)
 }
 
-renderMixin(Vue)
 initMixin(Vue)
+renderMixin(Vue)
 
 export default Vue
 
 let vm = new Vue({
     el: '#app',
     template: `<div key="a">
-                    <div key="A">A</div>
-                    <div key="B">B</div>
-                    <div key="C">C</div>
+                    {{name}} {{age}}
                </div>`,
     data() {
         return {
             name: 'world',
-            age: 90
+            age: 90,
+            arr: [1, 2, 3, 4]
         }
     }
 })
+
+vm.arr.push(5, [6, 7], 8, { a: 90 })

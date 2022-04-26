@@ -23,6 +23,7 @@ export function patch(oldVnode, vnode) {
         let parentElm = oldElm.parentNode
         parentElm.insertBefore(elm, oldElm)
         parentElm.removeChild(oldElm)
+        return elm
     } else if (!sameVnode(oldVnode, vnode)) { // // 新旧节点不是同一个节点时
         // 使用新的节点插入到旧节点前面,删除旧节点
         let oldElm = vnode.elm = oldVnode.elm

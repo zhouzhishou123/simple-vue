@@ -62,7 +62,7 @@ function renderMixin(Vue) {
             render = options.render
         }
         if (options.template) {
-            render = compileToFunctions(options.template).call(vm)
+            render = compileToFunctions(options.template)
         }
         options.render = render
         // 开始挂载节点
@@ -77,22 +77,7 @@ function mountComponent(vm, el) {
     vm.$el = el
     let vnode = vm.$options.render
     // 更新视图
-    vm._update(vnode)
-
-    // diff
-    let newVnode = compileToFunctions(`
-            <div key="a">
-                <div key="Q">Q</div>
-                <div key="W">W</div>
-                <div key="R">R</div>
-                <div key="T">T</div>
-                <div key="A">A</div>
-            </div>
-    `).call(vm)
-
-    patch(vnode, newVnode)
-    console.log(vnode, '旧节点');
-    console.log(newVnode, '新节点');
+    vm._update(vm._render())
 }
 
 export default renderMixin

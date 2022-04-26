@@ -5,15 +5,14 @@
  */
 
 import patch from '../patch/patch'
+import { observe } from '../observer/index'
 function initMixin(Vue) {
     Vue.prototype._init = function (options) {
         const vm = this
         vm.$options = options
 
-        // 如果存在data初始化
-        if (vm.$options.data) {
-            initData(vm, vm.$options.data)
-        }
+        //初始化数据
+        initState(vm)
 
         if (vm.$options.el) {
             vm.$mount(vm.$options.el)
@@ -21,25 +20,36 @@ function initMixin(Vue) {
     }
     Vue.prototype._update = function (vnode) {
         const vm = this
-        patch(vm.$el, vnode)
+        vm.$el = patch(vm.$el, vnode)
     }
 }
 
-function initData(vm, data) {
-    vm._data = typeof data === 'function' ? data.call(vm) : data
-    let _data = vm._data
-    // 代理
-    for (let key in _data) {
-        proxy(vm, key, _data[key])
+
+function initState(vm) {
+    // 如果存在data初始化
+    if (vm.$options.data) {
+        initData(vm, vm.$options.data)
     }
 }
-function proxy(vm, key, val) {
+
+function initData(vm) {
+    let data = vm.$options.data
+    data = vm._data = typeof data === 'function' ? data.call(vm) : data || {}
+
+    //观测data变成响应式数据
+    observe(data)
+    // 代理
+    for (let key in data) {
+        proxy(vm, '_data', key)
+    }
+}
+function proxy(vm, sourceKey, key) {
     Object.defineProperty(vm, key, {
         get() {
-            return val
+            return vm[sourceKey][key]
         },
         set(newVal) {
-            val = newVal
+            vm[sourceKey][key] = newVal
         }
     })
 }
